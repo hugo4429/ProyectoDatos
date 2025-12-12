@@ -110,9 +110,9 @@ def dibujar_arquitectura_conceptual():
 
         output_path = 'diagrama_w2v_simple'
         dot.render(output_path, format='png', cleanup=True)
-        print(f"   -> ¡Diagrama simplificado guardado como '{output_path}.png'!")
+        print(f"Diagrama simplificado guardado como '{output_path}.png'")
     except Exception as e:
-        print(f"   -> No se pudo generar el diagrama (revisa si graphviz está instalado): {e}")
+        print(f"No se pudo generar el diagrama (revisa si graphviz está instalado): {e}")
 
 # ==============================================================================
 # 2. CLASE RED NEURONAL GENÉRICA
@@ -151,7 +151,7 @@ def entrenar_pytorch(X_train, y_train, X_val, y_val, X_test, y_test, input_dim, 
     criterion = nn.BCELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-    print(f"   -> Entrenando NN ({nombre}) con Early Stopping...")
+    print(f"Entrenando NN ({nombre}) con Early Stopping")
 
     best_val_loss = float('inf')
     patience_counter = 0
@@ -181,7 +181,7 @@ def entrenar_pytorch(X_train, y_train, X_val, y_val, X_test, y_test, input_dim, 
             print(f"      Epoca {epoch+1}/{epochs} | Train Loss: {loss_train:.4f} | Val Loss: {loss_val:.4f}")
 
         if patience_counter >= patience:
-            print(f"      [!] Early Stopping activado en época {epoch+1}. Recuperando el mejor modelo.")
+            print(f"Early Stopping activado en época {epoch+1}. Recuperando el mejor modelo.")
             break
 
     if best_model_weights is not None:
@@ -232,7 +232,7 @@ resultados.append(["TFIDF + PyTorch", acc, auc_score])
 # 5. TÉCNICA 2: WORD2VEC (GOOGLE NEWS PRE-TRAINED)
 # ==============================================================================
 print("\n--- PROCESANDO 2: WORD2VEC (GOOGLE NEWS) ---")
-print("Descargando/Cargando modelo Google News (1.6 GB)... ten paciencia.")
+print("Descargando/Cargando modelo Google News")
 w2v_model = api.load('word2vec-google-news-300')
 
 def document_vector(doc, model):
@@ -242,7 +242,7 @@ def document_vector(doc, model):
         return np.zeros(300)
     return np.mean(vectors, axis=0)
 
-print("Vectorizando textos con Google W2V...")
+print("Vectorizando textos con Google W2V")
 X_train_w2v = np.array([document_vector(d, w2v_model) for d in X_train_raw])
 X_val_w2v = np.array([document_vector(d, w2v_model) for d in X_val_raw])
 X_test_w2v = np.array([document_vector(d, w2v_model) for d in X_test_raw])
@@ -261,7 +261,7 @@ acc, auc_score = evaluar_y_graficar(y_test, probs, "W2V_Google_PyTorch")
 resultados.append(["W2V_Google + PyTorch", acc, auc_score])
 
 # --- DIAGRAMA W2V SIMPLIFICADO ---
-print("   -> Generando diagrama conceptual simplificado de la red W2V...")
+print("Generando diagrama conceptual simplificado de la red W2V")
 dibujar_arquitectura_conceptual()
 # --------------------
 
@@ -273,7 +273,7 @@ tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 bert_model = AutoModel.from_pretrained("distilbert-base-uncased")
 
 def get_bert_embeddings(text_list):
-    print(f"   -> Extrayendo embeddings para {len(text_list)} textos...")
+    print(f"Extrayendo embeddings para {len(text_list)} textos")
     embeddings = []
     for text in text_list:
         inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=256, padding=True)
@@ -308,4 +308,4 @@ print("-" * 50)
 for fila in resultados:
     print(f"{fila[0]:<25} | {fila[1]:.4f}     | {fila[2]:.4f}")
 print("-" * 50)
-print("¡Imágenes guardadas en la carpeta actual!")
+print("Imágenes guardadas en la carpeta actual")
