@@ -32,7 +32,7 @@ def limpiar_fila(fila):
 # ==============================================================================
 # --- 3. APLICACIÓN DE LIMPIEZA ---
 # ==============================================================================
-print("Limpiando todo el dataset (esto puede tardar unos segundos)...")
+print("Limpiando todo el dataset")
 dataset_limpio = dataset.map(limpiar_fila)
 
 
@@ -88,13 +88,13 @@ def recortar_texto(texto, limite=1000):
 df['text_clean'] = df['text_clean'].apply(lambda x: recortar_texto(str(x)))
 
 max_len_nuevo = df['text_clean'].apply(lambda x: len(str(x).split())).max()
-print(f"Nueva longitud máxima en el dataset: {max_len_nuevo} palabras (aprox)")
+print(f"Nueva longitud máxima en el dataset: {max_len_nuevo} palabras")
 
 
 # ==============================================================================
 # --- 6. PREPARACIÓN FINAL Y GUARDADO ---
 # ==============================================================================
-print("\n--- Preparando dataset final para IA... ---")
+print("\n--- Preparando dataset final para ML ---")
 
 df['input_text'] = df['title'] + ". " + df['text_clean']
 
@@ -105,5 +105,5 @@ df_final = df[['input_text', 'label']]
 nombre_archivo = "dataset_procesado_final.csv"
 df_final.to_csv(nombre_archivo, index=False)
 
-print(f"¡Proceso completado! Archivo guardado en: '{nombre_archivo}'")
+print(f"Archivo guardado en: '{nombre_archivo}'")
 print(df_final.head())
