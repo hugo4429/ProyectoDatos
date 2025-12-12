@@ -23,7 +23,7 @@ torch.manual_seed(SEED)
 if torch.cuda.is_available():
     torch.cuda.manual_seed_all(SEED)
 
-print("--- INICIANDO FINE-TUNING CON RoBERTa-BASE (Versión Final) ---")
+print("--- INICIANDO FINE-TUNING CON RoBERTa-BASE ---")
 
 # ==============================================================================
 # 1. CARGA Y PREPARACIÓN DE DATOS
@@ -107,13 +107,13 @@ trainer = WeightedTrainer(
     callbacks=[EarlyStoppingCallback(early_stopping_patience=5)]
 )
 
-print("--- ENTRENANDO MODELO... ---")
+print("--- ENTRENANDO MODELO ---")
 trainer.train()
 
 # ==============================================================================
 # 4. EVALUACIÓN FINAL (TEST)
 # ==============================================================================
-print("\n--- EVALUANDO EN TEST (Mejor Modelo) ---")
+print("\n--- EVALUANDO EN TEST ---")
 results = trainer.predict(tokenized_test)
 
 logits_tensor = torch.tensor(results.predictions)
@@ -127,7 +127,7 @@ print(classification_report(y_true, y_pred, target_names=["Neutro", "Hiper"]))
 # ==============================================================================
 # 5. GENERACIÓN DE GRÁFICAS
 # ==============================================================================
-print("\nGenerando gráficas finales...")
+print("\nGenerando gráficas finales")
 
 cm = confusion_matrix(y_true, y_pred)
 plt.figure(figsize=(6, 5))
